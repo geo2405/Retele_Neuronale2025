@@ -1,0 +1,76 @@
+Linear Systems – Python Implementation (Tema 1)
+
+În acest laborator am implementat pas cu pas un program în Python care rezolvă un sistem de ecuații liniare cu trei necunoscute, fără să folosesc biblioteci externe precum numpy.
+Scopul a fost să înțeleg cum funcționează operațiile matriciale la nivel de bază și să pot implementa singur determinantul, transpusa, norma, regula lui Cramer și metoda inversării.
+
+1. Parsarea sistemului de ecuații
+
+Prima parte a laboratorului a fost să citesc un fișier text (system.txt) în care sunt scrise ecuațiile sistemului, de exemplu:
+
+2x + 3y - z = 5
+x - y + 4z = 6
+3x + y + z = 7
+
+Am creat o funcție load_system() care citește fiecare linie din fișier, elimină spațiile inutile și împarte textul în partea stângă (coeficienții lui x, y, z) și partea dreaptă (termenul liber).
+Am înlocuit semnele minus cu "+-" pentru a putea despărți termenii corect și am folosit o funcție mică numită _coef() care convertește textul din fața fiecărei litere (x, y, z) într-un număr.
+Rezultatul final este:
+
+* matricea A cu coeficienții
+* vectorul B cu termenii liberi
+
+Am făcut asta pentru a obține automat forma numerică a sistemului:
+A · X = B
+
+2. Operații de bază pe matrice și vectori
+
+După ce am obținut A și B, am implementat funcții simple care fac diverse calcule de bază, pentru a înțelege cum funcționează fiecare operație matematică.
+
+Determinantul (3x3): am implementat manual formula determinantului unei matrice 3x3, exact cum apare la teorie.
+Trace-ul: suma elementelor de pe diagonala principală, pentru verificarea structurii matricii.
+Norma vectorului: am calculat norma Euclidiană a unui vector cu formula √(b1² + b2² + b3²) folosind math.sqrt.
+Transpusa: am făcut o funcție care schimbă liniile cu coloanele, pentru a vedea clar cum se inversează indicii (i, j → j, i).
+Înmulțirea matrice–vector: am făcut produsul A·B element cu element, adunând rezultatele pentru fiecare rând.
+
+3. Rezolvarea sistemului prin regula lui Cramer
+
+După ce am avut funcția de determinant, am aplicat regula lui Cramer.
+Am creat o funcție replace_col() care înlocuiește câte o coloană din matricea A cu vectorul B, pentru a forma matricile Ax, Ay și Az.
+Apoi am folosit formula:
+
+x = det(Ax) / det(A)
+y = det(Ay) / det(A)
+z = det(Az) / det(A)
+
+Am verificat mai întâi dacă determinantul nu este aproape de zero (if abs(detA) < 1e-12) pentru a evita împărțirea la zero.
+Rezultatul a fost corect:
+x = 1.4736, y = 1.1579, z = 1.4210
+
+Am verificat manual și sistemul respectă aceste valori exact.
+
+4. Rezolvarea prin metoda inversării
+
+A doua metodă a fost să calculez inversa matricii A și apoi să aplic formula X = A⁻¹ · B.
+
+Pentru asta am implementat pașii intermediari:
+
+* Minorii și cofactorii: pentru fiecare element aij am construit minorul (matricea 2x2 fără linia i și coloana j). Am implementat funcția minor() pentru a face această eliminare. Apoi am calculat cofactorii folosind semnul (-1)^(i+j).
+* Adjungata: adjungata este transpusa matricei de cofactori, deci am folosit funcția transpose() deja scrisă.
+* Inversa: am aplicat formula A⁻¹ = (1 / det(A)) * adj(A) împărțind fiecare element al adjungatei la determinant.
+* Rezolvarea finală: am înmulțit inversa lui A cu vectorul B, obținând aceleași valori pentru x, y și z ca la regula lui Cramer.
+
+
+4. Ce am învățat
+
+Prin acest laborator am înțeles concret:
+
+* cum se construiește și manipulează o matrice în Python (cu liste imbricate)
+* cum se calculează manual determinantul unei matrice
+* ce sunt minorii, cofactorii și adjungata în practică
+* cum funcționează regula lui Cramer și metoda inversării
+* cum se verifică dacă un sistem are soluție unică (det(A) ≠ 0)
+* cum pot implementa toate aceste concepte pas cu pas, fără ajutorul unei biblioteci externe
+
+7. Concluzie generală
+
+Am folosit Python doar ca instrument, fără biblioteci, pentru a controla fiecare etapă matematică.
+Am ales să scriu implementarea rudimentar, pentru că scopul principal a fost să înțeleg mecanismul din spatele acestor calcule, nu doar să folosesc funcții predefinite.
