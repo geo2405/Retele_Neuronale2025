@@ -54,8 +54,8 @@ A doua metodă a fost să calculez inversa matricii A și apoi să aplic formula
 Pentru asta am implementat pașii intermediari:
 
 * Minorii și cofactorii: pentru fiecare element aij am construit minorul (matricea 2x2 fără linia i și coloana j). Am implementat funcția minor() pentru a face această eliminare. Apoi am calculat cofactorii folosind semnul (-1)^(i+j).
-* Adjungata: adjungata este transpusa matricei de cofactori, deci am folosit funcția transpose() deja scrisă.
-* Inversa: am aplicat formula A⁻¹ = (1 / det(A)) * adj(A) împărțind fiecare element al adjungatei la determinant.
+* Adjuncta:  este transpusa matricei de cofactori, deci am folosit funcția transpose() deja scrisă.
+* Inversa: am aplicat formula A⁻¹ = (1 / det(A)) * adj(A) împărțind fiecare element al adjunctei la determinant.
 * Rezolvarea finală: am înmulțit inversa lui A cu vectorul B, obținând aceleași valori pentru x, y și z ca la regula lui Cramer.
 
 
